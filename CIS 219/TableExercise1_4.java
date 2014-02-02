@@ -33,5 +33,15 @@ public class TableExercise1_4
 		aCub = Math.pow(a, 3);
 		System.out.println( a + "\t" + aSqr + "\t" + aCub + "\n");
 		//*/
+
+		//*
+		System.out.println("a" + "\t" + "a^2" + "\t" + "a^3" + "\n");
+		int a = 1 , finish = 3;
+		do {
+			//print a, then a^2, then a^3, as a table row.
+			System.out.println( a + "\t" + (Math.pow(a, 2)) + "\t" + (Math.pow(a, 3)) + "\n");
+			a++;
+			} while(a <= finish);
+		//*/
 	}
 }
