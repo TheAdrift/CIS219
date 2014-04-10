@@ -66,14 +66,14 @@ public class ValidateOrder
 			}
 		}while (run == true);//End detail order do - while loop
 
-		String summary = "\n\tCustomer: "+ name +"\n"+
+		String summary = "\tCustomer: "+ name +"\n"+
 						"\t_________\n"+
 						count + " orders placed.\n"+
 						"Total Gizmos:\t"+total_Giz+"\n"+
 						"Total Widgets:\t"+total_Wid+"\n"+
-						"Shipping & Handling: "+money.format(gross_ship)+
+						"Shipping & Handling:\t"+gross_ship+
 						"\n====================\n"+
-						"GRAND TOTAL: \t"+money.format(gross_revenue)+"\n";
+						"GRAND TOTAL: "+gross_revenue+"\n";
 
 		String exitMessage = new String();
 		if (count != 0)
@@ -89,41 +89,18 @@ public class ValidateOrder
 
 	}//end main method
 
-	/**startChoice ( int count )
-	*	This method displays a confirmation dialog to prompt the user
-	*	if they wish to place an order.
-	*	Returns boolean: true if "Yes", false if "No."
-	*/
 	public static boolean startChoice(int count)
 	{
 		String an = ((count==0)? "an" : "another");
 
-		int choice = JOptionPane.showConfirmDialog(null,
+		String selection = (String) JOptionPane.showInputDialog(null,
 				"Would you like to place "+an+" order?", STORE,
-				JOptionPane.YES_NO_OPTION);
+				JOptionPane.QUESTION_MESSAGE, null, go, go[0]);
 
-		return ((choice == 0)? true : false);
+		return ((selection.equals(go[1]))? true : false);
 
 	}//end method startChoice ( int )
 
-	/**confirm ( String x )
-	*	Displays a confirmation dialog with the passed String.
-	*	Returns boolean: true if "Yes", false if "No."
-	*/
-	public static boolean confirm (String x)
-	{
-		int choice = JOptionPane.showConfirmDialog(null,
-						"Place this order?\n\n"+x, "CONFIRM ORDER",
-						JOptionPane.YES_NO_OPTION);
-
-		return ((choice == 0)? true : false);
-
-	}//end method confirm ( String )
-
-	/**getName ()
-	*	Displays an input box and prompts the user for a string.
-	*	Returns that string.
-	*/
 	public static String getName()
 	{
 		return ( JOptionPane.showInputDialog(
@@ -131,11 +108,6 @@ public class ValidateOrder
 
 	}//end method getName()
 
-	/**getProduct()
-	*	Displays a dialog box and prompts the user to choose either
-	*	"Gizmo" or "Widget".
-	*	Returns string value of that choice.
-	*/
 	public static String getProduct()
 	{
 		String selection = (String) JOptionPane.showInputDialog(null,
@@ -144,11 +116,6 @@ public class ValidateOrder
 		return selection;
 	}//end method getProduct()
 
-	/**getShipping ()
-	*	Displays a dialog box and prompts the user to choose either
-	*	"FredEx" or "USPS".
-	*	Returns the string value of that choice.
-	*/
 	public static String getShipping()
 	{
 		String selection = (String) JOptionPane.showInputDialog(null,
@@ -158,13 +125,6 @@ public class ValidateOrder
 		return selection;
 	}//end method getShipping()
 
-	/**validateQty ( String p )
-	*	Displays a set of dialog boxes to prompt user for and validate
-	*	a quantity of product p [either "Gizmos" or "Widgets"].
-	*	Validation includes checking integer batch sizes for each category,
-	*	error detection, and an upper bound for Widgets.
-	*	Returns a valid integer quantity.
-	*/
 	public static int validateQty(String p)
 	{
 		int qty = 0;
@@ -176,13 +136,12 @@ public class ValidateOrder
 		else
 			group_size = WIDGET_PACK;
 
-		String groupErr = p+" must be ordered in packs of "+group_size;
-
 		do
 		{
 			String qtyTXT = JOptionPane.showInputDialog(null,
 						"How many " + p + " would you like to order?\n"
-						+ "[" + groupErr + ".]",
+						+ "[" + p + " must be ordered in whole packs of "
+						+ group_size + ".]",
 						STORE, JOptionPane.QUESTION_MESSAGE);
 			try
 			{
@@ -201,18 +160,14 @@ public class ValidateOrder
 					+ee, "ERROR", JOptionPane.ERROR_MESSAGE);
 			}
 
-			if ((qty % group_size != 0) || (qty < 0))
-			{
-				System.out.println(groupErr);
+			if (qty % group_size != 0)
 				valid = false;
-			}
 			else if ((p.equals(prodLines[1])) && (qty > WIDGET_LIMIT))
 			{
 				//Check upper widget limit
 				String overLim = "More than "+ WIDGET_LIMIT +
 					" widgets cannot ship in one order.\n\n"+
 					"We apologise for the inconvenience.";
-				System.out.println(overLim);
 				JOptionPane.showMessageDialog(null, overLim, "Sorry!",
 					JOptionPane.WARNING_MESSAGE);
 				valid = false;
@@ -223,4 +178,14 @@ public class ValidateOrder
 
 		return qty;
 	}//end method validateQty ( String )
+
+	public static boolean confirm (String x)
+	{
+		int choice = JOptionPane.showConfirmDialog(null,
+						"Place this order?\n\n"+x, "CONFIRM ORDER",
+						JOptionPane.YES_NO_OPTION);
+		boolean decision = ((choice==0)? true : false);
+		return decision;
+	}//end method confirm ( String )
+
 }//end class ValidateOrder
