@@ -1,0 +1,14 @@
+﻿Google page - any date, temperatures for each hour (24 total)
+	include shot of google page in document
+
+text file of these temperatures, as doubles, separated by newlines
+
+modified average:
+	subtract highest temperature (one instance if not unique)
+	subtract lowest temperature (one instance if not unique)
+
+i.e:
+	double average = (sum - max - min)/(temperature.length - 2);
+
+
+Include code and screenshots as usual.
